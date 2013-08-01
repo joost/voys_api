@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["joost@joopp.com"]
   spec.description   = %q{Export calls from http://www.voys.nl.}
   spec.summary       = %q{Export calls from http://www.voys.nl.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/joost/voys_api"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
