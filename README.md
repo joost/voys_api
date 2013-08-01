@@ -19,7 +19,10 @@ Or install it yourself as:
 ## Usage
 
     voys_client = VoysApi::Client.new('username', 'password')
-    voys_client.export # => "\"Foreign Code\";\"Client\";\"Account...
+    voys_client.raw_export # => "\"Foreign Code\";\"Client\";\"Account...
+
+    voys_client.export # => [.., .., ..]
+    voys_client.headers # => ["Foreign Code", "Client", "Account / Phone number", "Date", "Inbound / Outbound", "Amount", "Duration", "Source", "Destination", "Destination code"]
 
 ## Contributing
 

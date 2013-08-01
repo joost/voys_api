@@ -5,6 +5,8 @@ require 'mechanize'
 # voys_client.export # => "\"Foreign Code\";\"Client\";\"Account...
 class VoysApi::Client
 
+  attr_reader :headers
+
   def initialize(username, password)
     @username = username
     @password = password
@@ -42,7 +44,7 @@ class VoysApi::Client
 
   def export(options = {})
     export = CSV.parse(raw_export, col_sep: ';', converters: [:date_time]) #, headers: :first_row)
-    export.shift # Remove header row
+    @headers = export.shift # Remove header row
     return export
   end
 
