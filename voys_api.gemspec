@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = VoysApi::VERSION
   spec.authors       = ["Joost Hietbrink"]
   spec.email         = ["joost@joopp.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Export calls from http://www.voys.nl.}
+  spec.summary       = %q{Export calls from http://www.voys.nl.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
