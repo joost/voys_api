@@ -1,12 +1,7 @@
 require 'csv'
 require 'mechanize'
 # VoysApi exports voys.nl call list..
-#
-# voys_client = VoysApi::Client.new('username', 'password')
-# voys_client.export # => "\"Foreign Code\";\"Client\";\"Account...
 class VoysApi::Client
-
-  attr_reader :headers
 
   def initialize(username, password)
     @username = username
@@ -43,9 +38,9 @@ class VoysApi::Client
     result.body
   end
 
-  def export(options = {})
-    export = CSV.parse(raw_export, col_sep: ';', converters: [:date_time]) #, headers: :first_row)
-    @headers = export.shift # Remove header row
+  def export(options = {}, csv_options = {})
+    csv_options = {col_sep: ';', converters: [:date_time], headers: :first_row, header_converters: :symbol}.merge(options)
+    export = CSV.parse(raw_export, csv_options)
     return export
   end
 
