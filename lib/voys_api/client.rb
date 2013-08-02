@@ -13,12 +13,18 @@ class VoysApi::Client
   end
 
   def login
-    @logged_in = true
+    return true if @logged_in
     page = agent.get('https://client.voys.nl/user/login/')
     login_form = page.form
+    login_form.fields.detect {|field| field.name == 'this_is_the_login_form'} || raise(VoysApi::AuthenticationError, "Could not find the login form!")
     login_form.field_with(:name => "username").value = @username
     login_form.field_with(:name => "password").value = @password
     login_result = agent.submit login_form
+    if (login_result.form && login_result.form.fields.detect {|field| field.name == 'this_is_the_login_form'})
+      # We're still on the login page!
+      raise(VoysApi::AuthenticationError, "Error logging in!")
+    end
+    @logged_in = true
   end
 
   # Options:
@@ -42,6 +48,8 @@ class VoysApi::Client
     csv_options = {col_sep: ';', converters: [:date_time], headers: :first_row, header_converters: :symbol}.merge(options)
     export = CSV.parse(raw_export, csv_options)
     return export
+  rescue CSV::MalformedCSVError => exception
+    raise exception, "#{exception.message}\nCSV:\n#{raw_export}"
   end
 
   def logout
