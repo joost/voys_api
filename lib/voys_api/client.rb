@@ -1,3 +1,4 @@
+require 'csv'
 require 'mechanize'
 # VoysApi exports voys.nl call list..
 #
