@@ -28,8 +28,8 @@ class VoysApi::Client
   end
 
   # Options:
-  #   period_from: '2013-01-01'
-  #   period_to: '2013-01-18'
+  #   period_from: '2013-01-01' (you can also pass a Time object)
+  #   period_to: '2013-01-18' (you can also pass a Time object)
   #   inboundoutbound: 0
   #   totals: 0
   #   aggregation: 0
@@ -40,13 +40,22 @@ class VoysApi::Client
   # Empty options returns everything.
   def raw_export(options = {})
     login if not logged_in?
+
+    # convert options
+    options[:period_from] = options[:period_from].strftime("%Y-%m-%d") if options[:period_from].is_a?(Time)
+    options[:period_to] = options[:period_to].strftime("%Y-%m-%d") if options[:period_to].is_a?(Time)
+
     result = agent.post('/cdr/export', options)
     result.body
   end
 
+  # NOTE:
+  #  Date and time values are in +0200 timezone but set to UTC
+  #  To fix use row[:date].change(:offset => "+0200")
   def export(options = {}, csv_options = {})
-    csv_options = {col_sep: ';', converters: [:date_time], headers: :first_row, header_converters: :symbol}.merge(options)
-    export = CSV.parse(raw_export, csv_options)
+
+    csv_options = {col_sep: ';', converters: [:date_time], headers: :first_row, header_converters: :symbol}.merge(csv_options)
+    export = CSV.parse(raw_export(options), csv_options)
     return export
   rescue CSV::MalformedCSVError => exception
     raise exception, "#{exception.message}\nCSV:\n#{raw_export}"
