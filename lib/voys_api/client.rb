@@ -87,8 +87,8 @@ class VoysApi::Client
         recording = result[:recording] = cols[9].at('.jp-embedded').try(:[], 'data-source-wav')
         puts result.inspect
 
+        # Download all recordings
         if recording
-          # Download all recordings
           time = Time.parse(result[:date])
           recording_filename = "recordings/#{time.strftime("%Y%m%d_%H%M")}-#{source}-#{destination}.wav"
           FileUtils.mkdir_p(File.dirname(recording_filename))
@@ -98,7 +98,7 @@ class VoysApi::Client
         results << result
       end
       page_number += 1
-    end until page.at('.pagination a.next').blank?
+    end until page.at('.pagination a.next').nil?
     return results
   end
 
@@ -135,8 +135,8 @@ private
     converted_options = options.clone # deep clone?
 
     # convert options
-    converted_options[:period_from] = options[:period_from].strftime("%Y-%m-%d") if options[:period_from].is_a?(Time)
-    converted_options[:period_to] = options[:period_to].strftime("%Y-%m-%d") if options[:period_to].is_a?(Time)
+    converted_options[:period_from] = options[:period_from].strftime("%Y-%m-%d") if not options[:period_from].is_a?(String)
+    converted_options[:period_to] = options[:period_to].strftime("%Y-%m-%d") if not options[:period_from].is_a?(String)
 
     return converted_options
   end
