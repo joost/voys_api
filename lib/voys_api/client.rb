@@ -49,7 +49,7 @@ class VoysApi::Client
 
     options = convert_options(options)
 
-    result = agent.post('/cdr/export', options)
+    result = agent.get('/cdr/export', options)
     result.body
   end
 
