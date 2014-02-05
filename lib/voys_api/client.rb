@@ -135,8 +135,8 @@ private
     converted_options = options.clone # deep clone?
 
     # convert options
-    converted_options[:period_from] = options[:period_from].strftime("%Y-%m-%d") if not options[:period_from].is_a?(String)
-    converted_options[:period_to] = options[:period_to].strftime("%Y-%m-%d") if not options[:period_from].is_a?(String)
+    converted_options[:period_from] = options[:period_from].strftime("%Y-%m-%d") if options[:period_from] && !options[:period_from].is_a?(String)
+    converted_options[:period_to] = options[:period_to].strftime("%Y-%m-%d") if options[:period_to] && !options[:period_to].is_a?(String)
 
     return converted_options
   end
