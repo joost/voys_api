@@ -47,7 +47,7 @@ class VoysApi::Client
   def raw_export(options = {})
     login if not logged_in?
 
-    options = covert_options(options)
+    options = convert_options(options)
 
     result = agent.post('/cdr/export', options)
     result.body
