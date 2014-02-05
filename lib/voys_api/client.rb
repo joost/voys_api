@@ -144,7 +144,7 @@ private
         aggregation: 0,
         recordings: 0,
         page: ''
-      }.merge(converted_options) if not coverted_options.empty?
+      }.merge(converted_options) if not converted_options.empty?
 
     # convert options
     converted_options[:period_from] = options[:period_from].strftime(VOYS_DATE_FORMAT) if options[:period_from] && !options[:period_from].is_a?(String)
