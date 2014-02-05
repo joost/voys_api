@@ -22,5 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
 
   spec.add_dependency 'mechanize'
-  spec.add_dependency 'active_support'
+  spec.add_dependency 'activesupport', ">= 3.2.16"
 end
