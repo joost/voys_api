@@ -135,6 +135,17 @@ private
   def convert_options(options)
     converted_options = options.clone # deep clone?
 
+    # We need options otherwise other options don't work..
+    converted_options = {
+        period_from: '',
+        period_to: '',
+        inboundoutbound: 0,
+        totals: 0,
+        aggregation: 0,
+        recordings: 0,
+        page: ''
+      }.merge(converted_options) if not coverted_options.empty?
+
     # convert options
     converted_options[:period_from] = options[:period_from].strftime(VOYS_DATE_FORMAT) if options[:period_from] && !options[:period_from].is_a?(String)
     converted_options[:period_to] = options[:period_to].strftime(VOYS_DATE_FORMAT) if options[:period_to] && !options[:period_to].is_a?(String)
