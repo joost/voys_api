@@ -92,8 +92,10 @@ class VoysApi::Client
         if recording
           time = Time.parse(result[:date])
           recording_filename = "recordings/#{time.strftime("%Y%m%d_%H%M")}-#{source}-#{destination}.wav"
-          FileUtils.mkdir_p(File.dirname(recording_filename))
-          get_recording(recording, recording_filename)
+          if not File.exists?(recording_filename)
+            FileUtils.mkdir_p(File.dirname(recording_filename))
+            get_recording(recording, recording_filename)
+          end
         end
 
         results << result
@@ -109,7 +111,7 @@ class VoysApi::Client
     if recording_path =~ /(\d+)\/?$/
       recording_id = $1
       filename ||= "#{recording_id}.wav"
-      agent.get(recording_path).save(filename)
+      agent.get(recording_path).save(filename) if not File.exists?(File.join(recording_path, filename))
       return filename
     end
   end
